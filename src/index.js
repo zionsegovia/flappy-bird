@@ -40,6 +40,9 @@ const VELOCITY   = 200;
 let bird = null;
 let topPipe = null;
 let bottomPipe = null;
+const pipeOpeningDistanceRange = [150,250];
+let pipeOpeningDistance = Phaser.Math.Between(...pipeOpeningDistanceRange);
+
 const initialPosition = {x: config.width/10, y: config.height /2
 }
 const flapVelocity = 270;
@@ -54,7 +57,7 @@ function create(){
 
   // create pipes on canvas
   topPipe = this.physics.add.sprite(400, 100, 'pipe').setOrigin(0,1);
-  bottomPipe = this.physics.add.sprite(400, 100, 'pipe').setOrigin(0,1);
+  bottomPipe = this.physics.add.sprite(400, topPipe.y + pipeOpeningDistance, 'pipe').setOrigin(0,0);
 
   // when using gravity speed increases over time, when
   // using velocity the speed stays consistently at what is inputed
@@ -65,12 +68,15 @@ function create(){
 
 }
 
-
+// function that calls the reset function when the player loses
 function update(time, delta){
 if (bird.y > config.height || bird.y < - bird.height){
   restartPlayerPosition();
 }
 }
+
+
+// function that resets the players position
 function restartPlayerPosition(){
  bird.x = initialPosition.x;
  bird.y = initialPosition.y;
