@@ -3,6 +3,7 @@
 import Phaser from 'phaser';
 
 
+
 const config = {
   // WebGL (web graphics library) JS API for rendering 2D  and 3D graphics
   type: Phaser.AUTO,
@@ -32,19 +33,20 @@ function preload(){
   //           declare key   location of asset
   this.load.image('sky-bg', 'assets/pixel-sky.png');
   this.load.image('bird', 'assets/bird.png');
-  this.load.image('pipe', 'assets/pipe.png');
+  this.load.image('pipe', 'assets/newpipe.png');
+  this.load.image('pipe2', 'assets/newpipe2.png');
+
 }
 
 const VELOCITY   = 200;
+const PIPES_TO_RENDER = 4;
+const pipeHorizontalDistanceRange = [450, 500];
 
 let bird = null;
-let topPipe = null;
-let bottomPipe = null;
-const pipeOpeningDistanceRange = [150,250];
-let pipeOpeningDistance = Phaser.Math.Between(...pipeOpeningDistanceRange);
-
-const initialPosition = {x: config.width/10, y: config.height /2
-}
+let pipes = null;
+let pipeHorizontalDistance = 0;
+const pipeOpeningDistanceRange = [100,175];
+const initialPosition = {x: config.width/10, y: config.height /2}
 const flapVelocity = 270;
 function create(){
   // create sky bg on canvas and size
@@ -55,9 +57,24 @@ function create(){
   // apply gravity to bird
   bird.body.gravity.y = 650;
 
+  // create group pipes to access them easier
+  pipes = this.physics.add.group();
+
   // create pipes on canvas
-  topPipe = this.physics.add.sprite(400, 100, 'pipe').setOrigin(0,1);
-  bottomPipe = this.physics.add.sprite(400, topPipe.y + pipeOpeningDistance, 'pipe').setOrigin(0,0);
+  for (let i =0; i < PIPES_TO_RENDER; i++) {
+   const topPipe = pipes.create(0,0, 'pipe').setOrigin(0,1);
+   const bottomPipe = pipes.create(0,0, 'pipe2').setOrigin(0,0);
+    topPipe.flipY = true;
+    bottomPipe.flipY = true;
+    bottomPipe.flipX = true;
+
+    placePipe(topPipe, bottomPipe);
+
+  }
+
+  // set velocity for entire pipes group
+  pipes.setVelocityX(-200);
+
 
   // when using gravity speed increases over time, when
   // using velocity the speed stays consistently at what is inputed
@@ -75,6 +92,29 @@ if (bird.y > config.height || bird.y < - bird.height){
 }
 }
 
+function placePipe(tPipe, bPipe){
+  const rightMostX = getRightMostPipe();
+  const pipeVerticalDistance = Phaser.Math.Between(...pipeOpeningDistanceRange);
+  const pipeVertPosition = Phaser.Math.Between(35, config.height -35 - pipeVerticalDistance );
+  const pipeHorizontalDistance = Phaser.Math.Between(...pipeHorizontalDistanceRange);
+
+  tPipe.x = rightMostX + pipeHorizontalDistance;
+  tPipe.y = pipeVertPosition;
+
+  bPipe.x = tPipe.x;
+  bPipe.y = tPipe.y + pipeVerticalDistance
+
+
+}
+function getRightMostPipe(){
+  let rightMostX = 0;
+
+  pipes.getChildren().forEach(function (pipe){
+    rightMostX = Math.max(pipe.x, rightMostX);
+  });
+
+  return rightMostX;
+}
 
 // function that resets the players position
 function restartPlayerPosition(){
