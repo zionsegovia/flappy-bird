@@ -45,7 +45,7 @@ const pipeHorizontalDistanceRange = [450, 500];
 let bird = null;
 let pipes = null;
 let pipeHorizontalDistance = 0;
-const pipeOpeningDistanceRange = [100,175];
+const pipeOpeningDistanceRange = [100,160];
 const initialPosition = {x: config.width/10, y: config.height /2}
 const flapVelocity = 270;
 function create(){
@@ -55,7 +55,7 @@ function create(){
   // create bird on canvas
   bird = this.physics.add.sprite(initialPosition.x,initialPosition.y,'bird').setOrigin(0)
   // apply gravity to bird
-  bird.body.gravity.y = 650;
+  bird.body.gravity.y = 950;
 
   // create group pipes to access them easier
   pipes = this.physics.add.group();
@@ -73,7 +73,7 @@ function create(){
   }
 
   // set velocity for entire pipes group
-  pipes.setVelocityX(-200);
+  pipes.setVelocityX(-175);
 
 
   // when using gravity speed increases over time, when
@@ -90,6 +90,7 @@ function update(time, delta){
 if (bird.y > config.height || bird.y < - bird.height){
   restartPlayerPosition();
 }
+recyclePipes();
 }
 
 function placePipe(tPipe, bPipe){
@@ -105,6 +106,18 @@ function placePipe(tPipe, bPipe){
   bPipe.y = tPipe.y + pipeVerticalDistance
 
 
+}
+
+function recyclePipes(){
+    const tempPipes = [];
+    pipes.getChildren().forEach(pipe => {
+        if (pipe.getBounds().right <= 0) {
+            tempPipes.push(pipe);
+            if(tempPipes.length === 2){
+                placePipe(...tempPipes);
+            }
+        }
+    })
 }
 function getRightMostPipe(){
   let rightMostX = 0;
