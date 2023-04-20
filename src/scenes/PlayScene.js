@@ -22,9 +22,7 @@ export default class PlayScene extends Phaser.Scene {
     }
 
     update(time, delta) {
-        if (this.bird.y > this.game.config.height || this.bird.y < -this.bird.height) {
-            this.restartPlayerPosition();
-        }
+        this.checkGameStatus();
         this.recyclePipes();
     }
 
@@ -104,4 +102,9 @@ export default class PlayScene extends Phaser.Scene {
         this.bird.body.velocity.y = -325;
     }
 
+    checkGameStatus() {
+        if (this.bird.y > this.game.config.height || this.bird.y < -this.bird.height) {
+            this.restartPlayerPosition();
+        }
+    }
 }
