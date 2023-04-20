@@ -17,6 +17,7 @@ export default class PlayScene extends Phaser.Scene {
         this.createBG();
         this.createBird();
         this.createPipes();
+        this.createColliders();
         this.handleInputs();
 
     }
@@ -34,14 +35,15 @@ export default class PlayScene extends Phaser.Scene {
     createBird(){
         this.bird = this.physics.add.sprite(this.game.config.width / 10, this.game.config.height / 2, 'bird').setOrigin(0);
         this.bird.body.gravity.y = 950;
+        this.bird.setCollideWorldBounds()
     }
 
     createPipes(){
         this.pipes = this.physics.add.group();
 
         for (let i = 0; i < 4; i++) {
-            const topPipe = this.pipes.create(0, 0, 'pipe').setOrigin(0, 1);
-            const bottomPipe = this.pipes.create(0, 0, 'pipe2').setOrigin(0, 0);
+            const topPipe = this.pipes.create(0, 0, 'pipe').setImmovable(true).setOrigin(0, 1);
+            const bottomPipe = this.pipes.create(0, 0, 'pipe2').setImmovable(true).setOrigin(0, 0);
             topPipe.flipY = true;
             bottomPipe.flipY = true;
             bottomPipe.flipX = true;
@@ -92,10 +94,17 @@ export default class PlayScene extends Phaser.Scene {
         return rightMostX;
     }
 
-    restartPlayerPosition() {
-        this.bird.x = this.game.config.width / 10;
-        this.bird.y = this.game.config.height / 2;
-        this.bird.body.velocity.y = 0;
+    gameOver() {
+        this.physics.pause();
+        this.bird.setTint(0xEE4824);
+
+        this.time.addEvent({
+            delay: 1000,
+            callback: () =>{
+               this.scene.restart();
+            },
+            loop: false
+        });
     }
 
     flap() {
@@ -103,8 +112,12 @@ export default class PlayScene extends Phaser.Scene {
     }
 
     checkGameStatus() {
-        if (this.bird.y > this.game.config.height || this.bird.y < -this.bird.height) {
-            this.restartPlayerPosition();
+        if (this.bird.getBounds().bottom >= this.game.config.height || this.bird.y <= 0) {
+            this.gameOver();
         }
+    }
+
+    createColliders() {
+        this.physics.add.collider(this.bird, this.pipes, this.gameOver, null, this);
     }
 }
