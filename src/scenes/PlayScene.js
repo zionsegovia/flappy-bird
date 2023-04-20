@@ -14,12 +14,31 @@ export default class PlayScene extends Phaser.Scene {
     }
 
     create() {
+        this.createBG();
+        this.createBird();
+        this.createPipes();
+        this.handleInputs();
+
+    }
+
+    update(time, delta) {
+        if (this.bird.y > this.game.config.height || this.bird.y < -this.bird.height) {
+            this.restartPlayerPosition();
+        }
+        this.recyclePipes();
+    }
+
+    createBG(){
         const sky = this.add.image(this.game.config.width / 2, this.game.config.height / 2, 'sky-bg');
         sky.setScale(this.game.config.width / sky.width, this.game.config.height / sky.height);
+    }
 
+    createBird(){
         this.bird = this.physics.add.sprite(this.game.config.width / 10, this.game.config.height / 2, 'bird').setOrigin(0);
         this.bird.body.gravity.y = 950;
+    }
 
+    createPipes(){
         this.pipes = this.physics.add.group();
 
         for (let i = 0; i < 4; i++) {
@@ -33,23 +52,18 @@ export default class PlayScene extends Phaser.Scene {
         }
 
         this.pipes.setVelocityX(-175);
+    }
 
+    handleInputs(){
         this.input.on('pointerdown', this.flap, this);
         this.input.keyboard.on('keydown-SPACE', this.flap, this);
     }
 
-    update(time, delta) {
-        if (this.bird.y > this.game.config.height || this.bird.y < -this.bird.height) {
-            this.restartPlayerPosition();
-        }
-        this.recyclePipes();
-    }
-
     placePipe(tPipe, bPipe) {
         const rightMostX = this.getRightMostPipe();
-        const pipeVerticalDistance = Phaser.Math.Between(100, 160);
+        const pipeVerticalDistance = Phaser.Math.Between(115, 130);
         const pipeVertPosition = Phaser.Math.Between(35, this.game.config.height - 35 - pipeVerticalDistance);
-        const pipeHorizontalDistance = Phaser.Math.Between(450, 500);
+        const pipeHorizontalDistance = Phaser.Math.Between(415, 450);
 
         tPipe.x = rightMostX + pipeHorizontalDistance;
         tPipe.y = pipeVertPosition;
@@ -87,7 +101,7 @@ export default class PlayScene extends Phaser.Scene {
     }
 
     flap() {
-        this.bird.body.velocity.y = -270;
+        this.bird.body.velocity.y = -325;
     }
 
 }
