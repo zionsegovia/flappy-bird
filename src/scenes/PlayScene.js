@@ -51,7 +51,7 @@ export default class PlayScene extends Phaser.Scene {
             this.placePipe(topPipe, bottomPipe);
         }
 
-        this.pipes.setVelocityX(-175);
+        this.pipes.setVelocityX(-185);
     }
 
     handleInputs(){
@@ -61,9 +61,9 @@ export default class PlayScene extends Phaser.Scene {
 
     placePipe(tPipe, bPipe) {
         const rightMostX = this.getRightMostPipe();
-        const pipeVerticalDistance = Phaser.Math.Between(115, 130);
+        const pipeVerticalDistance = Phaser.Math.Between(105, 115);
         const pipeVertPosition = Phaser.Math.Between(35, this.game.config.height - 35 - pipeVerticalDistance);
-        const pipeHorizontalDistance = Phaser.Math.Between(415, 450);
+        const pipeHorizontalDistance = Phaser.Math.Between(415, 435);
 
         tPipe.x = rightMostX + pipeHorizontalDistance;
         tPipe.y = pipeVertPosition;
@@ -108,7 +108,7 @@ export default class PlayScene extends Phaser.Scene {
     }
 
     flap() {
-        this.bird.body.velocity.y = -325;
+        this.bird.body.velocity.y = -345;
     }
 
     checkGameStatus() {
