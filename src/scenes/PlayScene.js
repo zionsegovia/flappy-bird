@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 
+
 export default class PlayScene extends Phaser.Scene {
 
     constructor() {
@@ -14,6 +15,7 @@ export default class PlayScene extends Phaser.Scene {
         this.load.image('bird', 'assets/bird.png');
         this.load.image('pipe', 'assets/newpipe.png');
         this.load.image('pipe2', 'assets/newpipe2.png');
+        this.load.image('pause', 'assets/pause.png');
     }
 
     create() {
@@ -23,6 +25,7 @@ export default class PlayScene extends Phaser.Scene {
         this.createColliders();
         this.handleInputs();
         this.createScore();
+        this.createPause();
 
 
     }
@@ -148,5 +151,9 @@ export default class PlayScene extends Phaser.Scene {
     increaseScore(){
         this.score ++;
         this.scoreText.setText(`Score: ${this.score}`)
+    }
+
+    createPause() {
+        this.add.image(this.game.config.width - 10, this.game.config.height - 10, 'pause').setScale(3).setOrigin(1);
     }
 }
