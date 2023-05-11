@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import WebFontFile from "../../WebFontFile";
 
 
 export default class PlayScene extends Phaser.Scene {
@@ -15,7 +16,13 @@ export default class PlayScene extends Phaser.Scene {
         this.load.image('bird', 'assets/bird.png');
         this.load.image('pipe', 'assets/newpipe.png');
         this.load.image('pipe2', 'assets/newpipe2.png');
-        this.load.image('pause', 'assets/pause.png');
+        this.load.image('pause2', 'assets/pause2.png');
+
+        this.load.addFile(new WebFontFile(this.load, 'Press Start 2P'))
+
+
+
+
     }
 
     create() {
@@ -26,6 +33,10 @@ export default class PlayScene extends Phaser.Scene {
         this.handleInputs();
         this.createScore();
         this.createPause();
+
+
+
+
 
 
     }
@@ -42,7 +53,7 @@ export default class PlayScene extends Phaser.Scene {
 
     createBird(){
         this.bird = this.physics.add.sprite(this.game.config.width / 10, this.game.config.height / 2, 'bird').setOrigin(0);
-        this.bird.body.gravity.y = 950;
+        this.bird.body.gravity.y = 1500;
         this.bird.setCollideWorldBounds()
     }
 
@@ -59,7 +70,7 @@ export default class PlayScene extends Phaser.Scene {
             this.placePipe(topPipe, bottomPipe);
         }
 
-        this.pipes.setVelocityX(-185);
+        this.pipes.setVelocityX(-170);
     }
 
     handleInputs(){
@@ -69,7 +80,7 @@ export default class PlayScene extends Phaser.Scene {
 
     placePipe(tPipe, bPipe) {
         const rightMostX = this.getRightMostPipe();
-        const pipeVerticalDistance = Phaser.Math.Between(105, 115);
+        const pipeVerticalDistance = Phaser.Math.Between(105, 110);
         const pipeVertPosition = Phaser.Math.Between(35, this.game.config.height - 35 - pipeVerticalDistance);
         const pipeHorizontalDistance = Phaser.Math.Between(415, 435);
 
@@ -127,7 +138,7 @@ export default class PlayScene extends Phaser.Scene {
     }
 
     flap() {
-        this.bird.body.velocity.y = -345;
+        this.bird.body.velocity.y = -450;
     }
 
     checkGameStatus() {
@@ -141,12 +152,13 @@ export default class PlayScene extends Phaser.Scene {
     }
 
     createScore() {
-       this.score = 0;
+        this.score = 0;
 
-       const bestScore = localStorage.getItem('bestScore');
-       this.scoreText = this.add.text(16, 16, `Score: ${0}`, {fontSize: '32px', color: '#000'});
-       this.add.text(16, 52, `Best Score: ${bestScore || 0}`, {fontSize: '18px', color: '#000'});
+        const bestScore = localStorage.getItem('bestScore');
+        this.scoreText = this.add.text(16, 16, `Score: ${0}`, {fontSize: '20px', fontFamily:'"Press Start 2P"',color: '#070707'});
+        this.add.text(16, 52, `Best Score: ${bestScore || 0}`, {fontSize: '13px',fontFamily:'"Press Start 2P"', color: '#3b3a3a'});
     }
+
 
     increaseScore(){
         this.score ++;
@@ -154,6 +166,8 @@ export default class PlayScene extends Phaser.Scene {
     }
 
     createPause() {
-        this.add.image(this.game.config.width - 10, this.game.config.height - 10, 'pause').setScale(3).setOrigin(1);
-    }
-}
+     const pause2 = this.add.image(this.game.config.width - 10, this.game.config.height - 10, 'pause2')
+        .setScale(0.13) // Adjust the scale of the image
+        .setOrigin(1)
+        .setPosition(this.game.config.width - 10, this.game.config.height - 10); // Adjust the position of the image
+}}
