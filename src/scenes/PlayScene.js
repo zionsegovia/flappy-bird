@@ -44,6 +44,7 @@ export default class PlayScene extends Phaser.Scene {
     update(time, delta) {
         this.checkGameStatus();
         this.recyclePipes();
+
     }
 
     createBG(){
@@ -55,6 +56,8 @@ export default class PlayScene extends Phaser.Scene {
         this.bird = this.physics.add.sprite(this.game.config.width / 10, this.game.config.height / 2, 'bird').setOrigin(0);
         this.bird.body.gravity.y = 1500;
         this.bird.setCollideWorldBounds()
+
+
     }
 
     createPipes(){
@@ -80,7 +83,7 @@ export default class PlayScene extends Phaser.Scene {
 
     placePipe(tPipe, bPipe) {
         const rightMostX = this.getRightMostPipe();
-        const pipeVerticalDistance = Phaser.Math.Between(105, 110);
+        const pipeVerticalDistance = Phaser.Math.Between(100, 110);
         const pipeVertPosition = Phaser.Math.Between(35, this.game.config.height - 35 - pipeVerticalDistance);
         const pipeHorizontalDistance = Phaser.Math.Between(415, 435);
 
@@ -167,7 +170,13 @@ export default class PlayScene extends Phaser.Scene {
 
     createPause() {
      const pause2 = this.add.image(this.game.config.width - 10, this.game.config.height - 10, 'pause2')
+        .setInteractive()
         .setScale(0.13) // Adjust the scale of the image
         .setOrigin(1)
         .setPosition(this.game.config.width - 10, this.game.config.height - 10); // Adjust the position of the image
+
+        pause2.on('pointerdown',()=>{
+           this.physics.pause();
+           this.scene.pause();
+        })
 }}
