@@ -12,7 +12,7 @@ class MenuScene extends Phaser.Scene{
             const sky = this.add.image(this.game.config.width / 2, this.game.config.height / 2, 'sky-bg');
             sky.setScale(this.game.config.width / sky.width, this.game.config.height / sky.height);
 
-
+this.scene.start('play')
         }
 
 

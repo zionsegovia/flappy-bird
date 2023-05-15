@@ -3,6 +3,11 @@ import PlayScene from './scenes/PlayScene';
 import MenuScene from './scenes/MenuScene';
 import PreLoadScene from "./scenes/PreLoadScene";
 
+const Scenes = [PreLoadScene, MenuScene, PlayScene];
+const createScene = Scene => new Scene(config);
+
+// instantiate all scenes with the config object
+const initScenes = () => Scenes.map(createScene)
 
 const config = {
     type: Phaser.AUTO,
@@ -12,7 +17,12 @@ const config = {
         default: 'arcade',
         arcade: {}
     },
-    scene: [PreLoadScene,MenuScene,PlayScene]
+    scene: Scenes
 };
 
+
+
+// create the Phaser game object
 new Phaser.Game(config);
+
+
