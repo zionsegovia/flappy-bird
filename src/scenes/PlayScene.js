@@ -1,18 +1,20 @@
-import Phaser from 'phaser';
+import baseScene from "./BaseScene";
 import WebFontFile from "../../WebFontFile";
+import BaseScene from "./BaseScene";
 
 
-export default class PlayScene extends Phaser.Scene {
+export default class PlayScene extends BaseScene {
 
-    constructor() {
-        super('play');
+    constructor(config) {
+        super('play',config);
+
 
         this.score = 0;
         this.scoreText = "";
     }
 
     create() {
-        this.createBG();
+        super.create();
         this.createBird();
         this.createPipes();
         this.createColliders();
