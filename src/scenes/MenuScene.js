@@ -1,18 +1,22 @@
-import Phaser from "phaser";
+import BaseScene from "./BaseScene";
 
-class MenuScene extends Phaser.Scene{
+class MenuScene extends BaseScene{
 
     constructor(config) {
-        super("MenuScene");
-        this.config = config;
+        super("MenuScene",config);
+
+        this.menu = [
+            {scene: 'PlayScene', text: 'Play'},
+            {scene: 'ScoreScene', text: ' Best Score'},
+            {scene: 'null', text: 'Exit'},
+            ]
+
     }
 
 
     create(){
-            const sky = this.add.image(this.game.config.width / 2, this.game.config.height / 2, 'sky-bg');
-            sky.setScale(this.game.config.width / sky.width, this.game.config.height / sky.height);
-
-this.scene.start('play')
+    super.create();
+    this.createMenu(this.menu);
         }
 
 
