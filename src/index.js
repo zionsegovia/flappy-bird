@@ -2,8 +2,10 @@ import Phaser from 'phaser';
 import PlayScene from './scenes/PlayScene';
 import MenuScene from './scenes/MenuScene';
 import PreLoadScene from "./scenes/PreLoadScene";
+import ScoreScene from "./scenes/ScoreScene";
 
-const Scenes = [PreLoadScene, MenuScene, PlayScene];
+
+const Scenes = [PreLoadScene, MenuScene, ScoreScene, PlayScene];
 const createScene = Scene => new Scene(config);
 
 // instantiate all scenes with the config object
