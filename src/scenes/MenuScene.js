@@ -6,7 +6,7 @@ class MenuScene extends BaseScene{
         super("MenuScene",config);
 
         this.menu = [
-            {scene: 'PlayScene', text: 'Play'},
+            {scene: 'play', text: 'Play'},
             {scene: 'ScoreScene', text: 'Best Score'},
             {scene: 'null', text: 'Exit'},
             ]
@@ -30,6 +30,15 @@ class MenuScene extends BaseScene{
 
          textGO.on('pointerout', () => {
              textGO.setStyle({fill: '#594c4c'});
+         })
+
+         textGO.on('pointerup', () => {
+             menuItem.scene && this.scene.start(menuItem.scene);
+
+             if (menuItem.text === 'Exit'){
+                 this.game.destroy(true);
+
+             }
          })
      }
 
