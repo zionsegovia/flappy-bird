@@ -14,6 +14,7 @@ class PreLoadScene extends Phaser.Scene{
         this.load.image('pipe', 'assets/newpipe.png');
         this.load.image('pipe2', 'assets/newpipe2.png');
         this.load.image('pause2', 'assets/pause2.png');
+        this.load.image('back', 'assets/back.png');
 
         this.load.addFile(new WebFontFile(this.load, 'Press Start 2P'))
     }
