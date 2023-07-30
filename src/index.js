@@ -3,9 +3,10 @@ import PlayScene from './scenes/PlayScene';
 import MenuScene from './scenes/MenuScene';
 import PreLoadScene from "./scenes/PreLoadScene";
 import ScoreScene from "./scenes/ScoreScene";
+import PauseScene from "./scenes/PauseScene";
 
 
-const Scenes = [PreLoadScene, MenuScene, ScoreScene, PlayScene];
+const Scenes = [PreLoadScene, MenuScene, ScoreScene, PlayScene, PauseScene];
 const createScene = Scene => new Scene(config);
 
 // instantiate all scenes with the config object

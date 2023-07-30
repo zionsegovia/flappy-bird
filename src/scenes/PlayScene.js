@@ -166,5 +166,6 @@ export default class PlayScene extends BaseScene {
         pause2.on('pointerdown',()=>{
            this.physics.pause();
            this.scene.pause();
+           this.scene.launch('PauseScene');
         })
 }}
