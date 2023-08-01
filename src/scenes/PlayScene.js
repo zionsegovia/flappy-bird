@@ -77,7 +77,8 @@ export default class PlayScene extends BaseScene {
     }
 
     createBird(){
-        this.bird = this.physics.add.sprite(this.game.config.width / 10, this.game.config.height / 2, 'bird').setFlipX(true).setScale(3).setOrigin(0);
+        this.bird = this.physics.add.sprite(this.game.config.width / 10, this.game.config.height / 2, 'bird').setFlipX(true).setScale(3).setOrigin(0)
+        this.bird.setBodySize(this.bird.width, this.bird.height - 8);
         this.bird.body.gravity.y = 1500;
         this.bird.setCollideWorldBounds()
 
