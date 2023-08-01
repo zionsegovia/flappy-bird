@@ -11,6 +11,7 @@ export default class PlayScene extends BaseScene {
 
         this.score = 0;
         this.scoreText = "";
+        this.isPaused = false;
     }
 
     create() {
@@ -54,6 +55,7 @@ export default class PlayScene extends BaseScene {
         this.initialTime--;
         this.countDownText.setText(this.initialTime);
         if (this.initialTime <= 0) {
+            this.isPaused = false;
             this.countDownText.setText('');
             this.physics.resume();
             this.timedEvent.remove();
@@ -154,6 +156,7 @@ export default class PlayScene extends BaseScene {
     }
 
     flap() {
+        if (this.isPaused) { return ;}
         this.bird.body.velocity.y = -450;
     }
 
@@ -182,6 +185,7 @@ export default class PlayScene extends BaseScene {
     }
 
     createPause() {
+        this.isPaused = false;
      const pause2 = this.add.image(this.game.config.width - 10, this.game.config.height - 10, 'pause2')
         .setInteractive()
         .setScale(0.13) // Adjust the scale of the image
@@ -189,6 +193,7 @@ export default class PlayScene extends BaseScene {
         .setPosition(this.game.config.width - 10, this.game.config.height - 10); // Adjust the position of the image
 
         pause2.on('pointerdown',()=>{
+            this.isPaused = true;
            this.physics.pause();
            this.scene.pause();
            this.scene.launch('PauseScene');
